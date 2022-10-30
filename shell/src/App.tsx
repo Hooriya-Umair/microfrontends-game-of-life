@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from "react";
 import ReactDOM from "react-dom";
-import useGameState, { GameStateProvider } from "./state/useGameState";
-import { ActionType } from "./state/types";
+import useGameState, { GameStateProvider } from "state/useGameState";
+// import { ActionType } from "./state/types";
 
 import "./index.scss";
 
@@ -9,6 +9,8 @@ const width = 25;
 const height = 25;
 
 const ReactCell = React.lazy(() => import("react_cell/Cell"));
+// const useGameState = React.lazy(() => import("state/useGameState"));
+
 const App = () => {
   const { state, dispatch } = useGameState();
   console.log({ state, dispatch });
