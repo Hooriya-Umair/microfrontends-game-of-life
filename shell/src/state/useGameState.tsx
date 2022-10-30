@@ -11,10 +11,9 @@ const initialState: StateType = {
 
 const GameStateContext = React.createContext<{
   state: StateType;
-  dispatch: React.Dispatch<ActionType>;
-} | null>(null);
+  dispatch: React.Dispatch<ActionType> | null;
+}>({ state: initialState, dispatch: () => {} });
 GameStateContext.displayName = "GameStateContext";
-
 function gameStateReducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
     case "init": {
@@ -57,9 +56,9 @@ function gameStateReducer(state: StateType, action: ActionType): StateType {
 
 export function GameStateProvider({ children }) {
   const [state, dispatch] = React.useReducer(gameStateReducer, initialState);
-  const value = { state, dispatch };
   return (
-    <GameStateContext.Provider value={value}>
+    //TODO: typescript errors here if passing as array
+    <GameStateContext.Provider value={{ state, dispatch }}>
       {children}
     </GameStateContext.Provider>
   );
@@ -70,6 +69,7 @@ function useGameState() {
   if (context === undefined) {
     throw new Error(`useGameState must be used within a GameStateProvider`);
   }
+  console.log({ context });
   return context;
 }
 
