@@ -1,4 +1,6 @@
-export const initiateBoard = (width, height) =>
+import { StateType, CellsType } from "./types";
+
+export const initiateBoard = (width: number, height: number): CellsType =>
   new Array(height).fill([]).map(() => Array(width).fill(false));
 
 // NOTE: for gol we only care about the number of neighbors with true values
@@ -19,9 +21,13 @@ const getCountAliveNeighbors = ({ width, height, idx, idy, cells }) => {
   ].filter(Boolean).length;
 };
 
-export const tick = ({ width, height, cells }) =>
-  cells.reduce((reducedState, nextRow, idy) => {
-    return (reducedState[idy] = nextRow.map((cell, idx) => {
+export const tick = ({
+  width,
+  height,
+  cells,
+}: Pick<StateType, "height" | "width" | "cells">): CellsType =>
+  cells.map((nextRow, idy) => {
+    return nextRow.map((cell, idx) => {
       const numNeighborsAlive = getCountAliveNeighbors({
         width,
         height,
@@ -29,12 +35,11 @@ export const tick = ({ width, height, cells }) =>
         idy,
         cells,
       });
-
       // GOL RULES
       // if 3 neighbors alive then cell springs to life if dead
       // if cell already alive then it stays alive if two or 3 neighvors alive
       if (!cell && numNeighborsAlive === 3) return true;
       if (cell && numNeighborsAlive > 1 && numNeighborsAlive < 4) return true;
       return false;
-    }));
-  }, []);
+    });
+  });

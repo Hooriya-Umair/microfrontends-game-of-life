@@ -1,35 +1,35 @@
 import * as React from "react";
 import { initiateBoard, tick } from "./engine";
-// import { dequal } from "dequal";
+import { StateType, ActionType } from "./types";
 
-// ./context/user-context.js
-
-// import * as userClient from "../user-client";
-// import { useAuth } from "../auth-context";
-
-const initialState = {
+const initialState: StateType = {
   tick: 0,
   width: 0,
   height: 0,
   cells: [],
 };
 
-const GameStateContext = React.createContext(initialState);
+const GameStateContext = React.createContext<{
+  state: StateType;
+  dispatch: React.Dispatch<ActionType>;
+} | null>(null);
 GameStateContext.displayName = "GameStateContext";
 
-function userReducer(state, action) {
+function gameStateReducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
     case "init": {
       const { width, height } = action.payload;
+      if (!width || !height) throw "width and height must be provided";
       return {
         ...state,
         width,
         height,
-        cells: initiateBoard,
+        cells: initiateBoard(width, height),
       };
     }
     case "click": {
       const { idx, idy } = action.payload;
+      if (!idx || !idy) throw "idx and idy must be provided";
       const toggledCellState = !state.cells[idx][idy];
       const newCellsState = [...state.cells];
       newCellsState[idx][idy] = toggledCellState;
@@ -47,11 +47,7 @@ function userReducer(state, action) {
       };
     }
     case "reset": {
-      return {
-        ...state,
-        status: null,
-        error: null,
-      };
+      return initialState;
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -59,15 +55,9 @@ function userReducer(state, action) {
   }
 }
 
-function UserProvider({ children }) {
-  const { user } = useAuth();
-  const [state, dispatch] = React.useReducer(userReducer, {
-    status: null,
-    error: null,
-    storedUser: user,
-    user,
-  });
-  const value = [state, dispatch];
+export function GameStateProvider({ children }) {
+  const [state, dispatch] = React.useReducer(gameStateReducer, initialState);
+  const value = { state, dispatch };
   return (
     <GameStateContext.Provider value={value}>
       {children}
@@ -75,10 +65,12 @@ function UserProvider({ children }) {
   );
 }
 
-function useUser() {
+function useGameState() {
   const context = React.useContext(GameStateContext);
   if (context === undefined) {
-    throw new Error(`useUser must be used within a UserProvider`);
+    throw new Error(`useGameState must be used within a GameStateProvider`);
   }
   return context;
 }
+
+export default useGameState;
