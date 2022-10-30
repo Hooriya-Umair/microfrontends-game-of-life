@@ -45,9 +45,6 @@ function gameStateReducer(state: StateType, action: ActionType): StateType {
         cells: tick({ width, height, cells }),
       };
     }
-    case "reset": {
-      return initialState;
-    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

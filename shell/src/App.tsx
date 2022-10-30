@@ -24,10 +24,21 @@ const App = () => {
   const cellClick = ({ idx, idy }) =>
     dispatch && dispatch({ type: "click", payload: { idx, idy } });
 
+  const reset = () =>
+    dispatch && dispatch({ type: "init", payload: { width: 10, height: 10 } });
+
+  const play = () => dispatch && dispatch({ type: "tick", payload: {} });
+
   const { cells } = state;
   console.log({ cells });
   return (
     <div className="mt-10 text-3xl mx-auto max-w-6xl">
+      <button className={"m-2"} onClick={play}>
+        Step
+      </button>
+      <button className={"m-2"} onClick={reset}>
+        Reset
+      </button>
       <Suspense fallback={<div>Loading...</div>}>
         {cells.map((row, idy) => {
           return (
