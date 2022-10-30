@@ -3,7 +3,7 @@ import React from "react";
 const Cell = ({ idx, idy, alive, clickHandler }) => {
   return (
     <div
-      className={`${alive ? "bg-emerald-500" : "bg-red-500"}`}
+      className={` cursor-pointer p-2 ${alive ? "bg-white-500" : "bg-red-500"}`}
       onClick={clickHandler}
     >
       R

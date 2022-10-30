@@ -5,19 +5,17 @@ import { ActionType } from "./state/types";
 
 import "./index.scss";
 
+const width = 25;
+const height = 25;
+
 const ReactCell = React.lazy(() => import("react_cell/Cell"));
 const App = () => {
   const { state, dispatch } = useGameState();
   console.log({ state, dispatch });
-  // console.log({ dis: wer.dispatch });
-
-  // useEffect(() => {
-  //   console.log({ wer });
-  // }, [wer]);
 
   useEffect(() => {
     if (dispatch) {
-      dispatch({ type: "init", payload: { width: 10, height: 10 } });
+      dispatch({ type: "init", payload: { width, height } });
     }
   }, []);
 
@@ -25,7 +23,7 @@ const App = () => {
     dispatch && dispatch({ type: "click", payload: { idx, idy } });
 
   const reset = () =>
-    dispatch && dispatch({ type: "init", payload: { width: 10, height: 10 } });
+    dispatch && dispatch({ type: "init", payload: { width, height } });
 
   const play = () => dispatch && dispatch({ type: "tick", payload: {} });
 
