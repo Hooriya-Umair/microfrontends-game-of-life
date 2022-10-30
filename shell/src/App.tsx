@@ -21,17 +21,31 @@ const App = () => {
     }
   }, []);
 
+  const cellClick = ({ idx, idy }) =>
+    dispatch && dispatch({ type: "click", payload: { idx, idy } });
+
+  const { cells } = state;
+  console.log({ cells });
   return (
     <div className="mt-10 text-3xl mx-auto max-w-6xl">
       <Suspense fallback={<div>Loading...</div>}>
-        <div className="flex">
-          <ReactCell />
-          <ReactCell />
-          <ReactCell />
-          <ReactCell />
-          <ReactCell />
-          <ReactCell />
-        </div>
+        {cells.map((row, idy) => {
+          return (
+            <div className="flex" key={idy}>
+              {row.map((col, idx) => {
+                return (
+                  <ReactCell
+                    key={idx}
+                    idx={idx}
+                    idy={idy}
+                    alive={cells[idy][idx]}
+                    clickHandler={() => cellClick({ idx, idy })}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
       </Suspense>
     </div>
   );

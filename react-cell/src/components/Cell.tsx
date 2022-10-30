@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Cell = () => {
-  const [on, setOn] = useState(false);
-
-  return <div>R</div>;
+const Cell = ({ idx, idy, alive, clickHandler }) => {
+  return <div onClick={clickHandler}>R{JSON.stringify(alive)}</div>;
 };
 
 export default Cell;

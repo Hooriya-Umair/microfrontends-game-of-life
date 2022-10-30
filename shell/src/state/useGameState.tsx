@@ -28,10 +28,10 @@ function gameStateReducer(state: StateType, action: ActionType): StateType {
     }
     case "click": {
       const { idx, idy } = action.payload;
-      if (!idx || !idy) throw "idx and idy must be provided";
-      const toggledCellState = !state.cells[idx][idy];
+      if (idx === null || idy === null) throw "idx and idy must be provided";
+      const toggledCellState = !state.cells[idy][idx];
       const newCellsState = [...state.cells];
-      newCellsState[idx][idy] = toggledCellState;
+      newCellsState[idy][idx] = toggledCellState;
       return {
         ...state,
         cells: newCellsState,
