@@ -15,7 +15,6 @@ const App = () => {
     state,
     dispatch,
   }: { state: StateType; dispatch: ({}: ActionType) => void } = useGameState();
-  console.log({ state, dispatch });
 
   useEffect(() => {
     if (dispatch) {
@@ -35,7 +34,6 @@ const App = () => {
   const play = () => dispatch && dispatch({ type: "tick", payload: {} });
 
   const { cells } = state;
-  console.log({ cells });
   return (
     <div className="mt-10 text-3xl mx-auto max-w-6xl">
       <button className={"m-2"} onClick={play}>

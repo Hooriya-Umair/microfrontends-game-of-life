@@ -73,7 +73,6 @@ function useGameState() {
   if (context === undefined) {
     throw new Error(`useGameState must be used within a GameStateProvider`);
   }
-  console.log({ context });
   return context;
 }
 

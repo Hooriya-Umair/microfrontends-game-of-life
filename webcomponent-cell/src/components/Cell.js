@@ -1,5 +1,4 @@
 const template = document.createElement("template");
-console.log("Loading custom element");
 
 // TODO: fix tailwind styles
 template.innerHTML = `
@@ -27,8 +26,6 @@ class WebComponentCell extends HTMLElement {
   // }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log({ name, oldValue, newValue });
-    console.log("Custom square element attributes changed.");
     if (name === "alive") {
       if (newValue === "true") {
         this._shadowRoot.querySelector("div").className = "alive";
