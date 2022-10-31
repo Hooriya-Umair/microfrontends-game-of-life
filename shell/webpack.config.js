@@ -45,6 +45,8 @@ module.exports = {
       filename: "remoteEntry.js",
       remotes: {
         react_cell: "react_cell@http://localhost:8081/remoteEntry.js",
+        webcomponent_cell:
+          "webcomponent_cell@http://localhost:8083/remoteEntry.js",
         state: "state@http://localhost:8082/remoteEntry.js",
       },
       exposes: {},

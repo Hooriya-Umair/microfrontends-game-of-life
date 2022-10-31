@@ -1,7 +1,6 @@
 export type CellsType = boolean[][];
 
 export type StateType = {
-  tick: number;
   width: number;
   height: number;
   cells: CellsType;

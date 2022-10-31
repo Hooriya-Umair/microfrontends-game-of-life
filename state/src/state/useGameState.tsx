@@ -1,9 +1,8 @@
 import * as React from "react";
 import { initiateBoard, tick } from "./engine";
-import { StateType, ActionType } from "./types";
+import { StateType, ActionType } from "../types";
 
 const initialState: StateType = {
-  tick: 0,
   width: 0,
   height: 0,
   cells: [],
@@ -23,12 +22,13 @@ function gameStateReducer(state: StateType, action: ActionType): StateType {
         ...state,
         width,
         height,
-        cells: initiateBoard(width, height),
+        cells: initiateBoard(width, height, false),
       };
     }
     case "click": {
       const { idx, idy } = action.payload;
-      if (idx === null || idy === null) throw "idx and idy must be provided";
+      if (idx === undefined || idy === undefined)
+        throw "idx and idy must be provided";
       const toggledCellState = !state.cells[idy][idx];
       const newCellsState = [...state.cells];
       newCellsState[idy][idx] = toggledCellState;
@@ -41,8 +41,15 @@ function gameStateReducer(state: StateType, action: ActionType): StateType {
       const { width, height, cells } = state;
       return {
         ...state,
-        tick: state.tick + 1,
         cells: tick({ width, height, cells }),
+      };
+    }
+    case "random": {
+      const { width, height } = action.payload;
+      if (!width || !height) throw "width and height must be provided";
+      return {
+        ...state,
+        cells: initiateBoard(width, height, true),
       };
     }
     default: {

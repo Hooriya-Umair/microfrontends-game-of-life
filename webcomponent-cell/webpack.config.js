@@ -4,15 +4,15 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
-    publicPath: "http://localhost:8082/",
+    publicPath: "http://localhost:8083/",
   },
 
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+    extensions: [".ts", ".tsx", ".jsx", ".js", ".json"],
   },
 
   devServer: {
-    port: 8082,
+    port: 8083,
     historyApiFallback: true,
   },
 
@@ -41,23 +41,12 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "state",
+      name: "webcomponent_cell",
       filename: "remoteEntry.js",
       remotes: {},
-      exposes: {
-        "./useGameState": "./src/state/useGameState",
-        "./types": "./src/types",
-      },
+      exposes: { "./Cell": "./src/components/Cell" },
       shared: {
         ...deps,
-        react: {
-          singleton: true,
-          requiredVersion: deps.react,
-        },
-        "react-dom": {
-          singleton: true,
-          requiredVersion: deps["react-dom"],
-        },
       },
     }),
     new HtmlWebPackPlugin({

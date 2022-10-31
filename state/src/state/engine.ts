@@ -1,7 +1,15 @@
-import { StateType, CellsType } from "./types";
+import { StateType, CellsType } from "../types";
 
-export const initiateBoard = (width: number, height: number): CellsType =>
-  new Array(height).fill([]).map(() => Array(width).fill(false));
+export const initiateBoard = (
+  width: number,
+  height: number,
+  random: boolean
+): CellsType =>
+  new Array(height)
+    .fill([])
+    .map(() =>
+      Array(width).fill(random ? (Math.random() < 0.2 ? true : false) : false)
+    );
 
 // NOTE: for gol we only care about the number of neighbors with true values
 const getCountAliveNeighbors = ({ width, height, idx, idy, cells }) => {

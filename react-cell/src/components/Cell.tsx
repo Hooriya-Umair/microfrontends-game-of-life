@@ -1,6 +1,6 @@
 import React from "react";
 
-const Cell = ({ idx, idy, alive, clickHandler }) => {
+const Cell = ({ alive, clickHandler }) => {
   return (
     <div
       className={` cursor-pointer p-2 ${alive ? "bg-white-500" : "bg-red-500"}`}
