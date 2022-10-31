@@ -61,7 +61,6 @@ const App = () => {
                     ) : (
                       <WebComponentWrapper
                         alive={cells[idy][idx] ? "true" : "false"}
-                        clickHandler={() => cellClick({ idx, idy })}
                       />
                     )}
                   </>
