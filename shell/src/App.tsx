@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import useGameState, { GameStateProvider } from "state/useGameState";
 import { StateType, ActionType } from "state/types";
 import WebComponentWrapper from "./WebComponentWrapper";
+import ErrorBoundary from "./ErrorBoundary";
 import "./index.scss";
 
 const ReactCell = React.lazy(() => import("react_cell/Cell"));
@@ -51,10 +52,9 @@ const App = () => {
             <div className="flex" key={idy}>
               {row.map((col, idx) => {
                 return (
-                  <>
+                  <ErrorBoundary key={`${idx}_${idy}`}>
                     {idx % 2 === 0 ? (
                       <ReactCell
-                        key={idx}
                         alive={cells[idy][idx]}
                         clickHandler={() => cellClick({ idx, idy })}
                       />
@@ -63,7 +63,7 @@ const App = () => {
                         alive={cells[idy][idx] ? "true" : "false"}
                       />
                     )}
-                  </>
+                  </ErrorBoundary>
                 );
               })}
             </div>
